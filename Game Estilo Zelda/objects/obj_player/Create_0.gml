@@ -1,14 +1,13 @@
 /// @description Insert description here
 
-//herda os eventos 
+//Herda os eventos do objeto pai 
 event_inherited();
 
 #region variaveis
-
 max_vel			= 3;				//Velocidade máxima
 meu_acel		= .2;				//Aceleração individual
 acel			= meu_acel;			//Aceleração
-roll_vel		= 5;
+roll_vel		= 5;				//Velocidade de esquiva
 face			= 0;				//Controla a direçção da sprite
 xscale			= 1;				//Escala em X
 estado			= "parado";			//Controla o estado
@@ -40,7 +39,6 @@ sprites	=	[
 #endregion
 
 #region Mapeia as teclas alternativas
-
 keyboard_set_map(ord("W"), vk_up);		//Tecla alternativa para cima
 keyboard_set_map(ord("S"), vk_down);	//Tecla alternativa para baixo
 keyboard_set_map(ord("A"), vk_left);	//Tecla alternativa para esquerda
@@ -52,7 +50,6 @@ keyboard_set_map(ord("K"), ord("X"));	//Tecla alternativa para esquivar
 #endregion
 
 #region Funções
-
 //Função para troca de sprites
 ajusta_sprite = function(_indice_array) {
 	if (sprite != sprites[_indice_array][face]) {	//Checa se a sprite em uso é a correta		
@@ -69,7 +66,7 @@ ajusta_sprite = function(_indice_array) {
 	
 }
 
-//FunÇÃo para controle do player
+//Função para controle do player
 controla_player = function() {
 	
 	//Teclas para movimentação e ataque
@@ -200,7 +197,7 @@ controla_estado = function() {
 		
 			estado_txt = "defesa";	//Debug
 		
-			controla_player(); //Chama a função para controlar o player
+			controla_player();	//Chama a função para controlar o player
 		
 			ajusta_sprite(3);	//Altera a sprite do estado
 		
@@ -217,14 +214,20 @@ controla_estado = function() {
 		#region Esquiva
 		case "esquiva":
 			
-			image_spd = 18 / room_speed;	//Aumenta a velocidade da animação de esquiva
+			
+			
 			
 			//Chega se ainda não entrou no estado de esquiva
 			if (estado_txt != "esquiva") {	
-				if (velh != 0 || velv != 0) {							//Se estiver se movendo esquive na direção que se move
-					var _dir	= point_direction(0, 0, velh, velv);	//Acha a direção
-					velh		= lengthdir_x(roll_vel, _dir);			//Velocidade horizontal
-					velv		= lengthdir_y(roll_vel, _dir);			//Velocidade vertical
+				var _up		= keyboard_check(vk_up);			//Se move para cima
+				var _down	= keyboard_check(vk_down);			//Se move para baixo
+				var _left	= keyboard_check(vk_left);			//Se move para esquerda
+				var _right	= keyboard_check(vk_right);			//Se move para direita
+							
+				if ((_up xor _down) || (_right xor _left)) {							//Se estiver se movendo esquive na direção que se move
+					var _dir	= point_direction(0, 0, _right - _left, _down - _up);	//Acha a direção
+					velh		= lengthdir_x(roll_vel, _dir);							//Velocidade horizontal
+					velv		= lengthdir_y(roll_vel, _dir);							//Velocidade vertical
 				}
 				else {													//Se estiver parado esquiva na direção que esta olhando
 					velh		= lengthdir_x(roll_vel, face * 90);		//Eixo X
@@ -236,6 +239,8 @@ controla_estado = function() {
 			estado_txt = "esquiva";	//Debug
 			
 			ajusta_sprite(4); //Ajusta a sprite do player
+			
+			image_spd = sprite_get_number(sprite) / (room_speed /3);	//Ajusta a velocidade da animação de esquiva
 			
 			//Volta a sprite do player parado quando a animação de esquiva acaba
 			if (image_ind + image_spd >= image_numb) {
