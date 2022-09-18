@@ -1,5 +1,12 @@
 /// @description Insert description here
 
+//Desenha a sombra
+var _escala = .5;
+if (image_index > 1) {
+	var _escala = .7;	
+}
+desenha_sombra(spr_sombra, _escala, , .3);
+
 //Se desenha
 draw_self();
 
@@ -13,3 +20,8 @@ if (debug) {
 	draw_circle(destino_x, destino_y, 16, false);
 	draw_circle(x, y, campo_visao, true);
 }
+
+
+
+
+

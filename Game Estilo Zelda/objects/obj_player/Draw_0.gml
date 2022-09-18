@@ -1,5 +1,8 @@
 /// @description Insert description here
 
+//Desenha a sombra
+desenha_sombra(spr_sombra, tam_sombra, , .2);
+
 //Se desenha
 draw_sprite_ext(sprite, image_ind, x, y, xscale, image_yscale, image_angle, image_blend, image_alpha);
 

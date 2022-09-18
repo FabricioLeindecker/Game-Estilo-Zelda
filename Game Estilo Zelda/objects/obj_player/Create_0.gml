@@ -21,6 +21,7 @@ image_spd		= 8 / room_speed;	//Velocidade da animação
 image_numb		= 1;				//Número da imagem
 sprite			= sprite_index;		//Sprite do player
 sprites_index	= 0;				//Sprite do array sprites
+tam_sombra		= 0;
 
 //vetor(array) para mudar as sprites do player
 sprites	=	[
@@ -151,25 +152,38 @@ controla_estado = function() {
 		
 			//Altera a sprite conforme a direção do player
 			ajusta_sprite(sprites_index);
+			
+			//Ajusta a sombra ao se mover
+			if (clamp(image_ind, 1, 3) == image_ind) {
+				tam_sombra = .6;	//Tamanho normal da sombra
+			}
+			else {
+				tam_sombra = .3;	//Diminui o tamanho da sombra
+			}
 		
+			
 			//Sai do estado de movendo quando parado
 			if (abs(velv) <= 0.1 && abs(velh) <= 0.1) {
-				estado = "parado";	
+				estado		= "parado";	//Vai para o estado parado
+				tam_sombra	= .6;		//Volta a sombra para o tamanho normal
 			}
 		
 			//Sai do estado de movendo quando ataca
 			if (attack) {
-				estado = "attack";	
+				estado		= "attack";	//Vai para o estado ataca
+				tam_sombra	= .6;		//Volta a sombra para o tamanho normal
 			}
 		
 			//Sai do estado de movendo quando defende
 			if (shield) {
-				estado = "defesa";
+				estado		= "defesa";	//Vai para o estado defesa
+				tam_sombra	= .6;		//Volta a sombra para o tamanho normal
 			}
 			
 			//Sai do estado de movendo quando esquiva
 			if (roll) {
-				estado = "esquiva";	
+				estado		= "esquiva";	//Vai para o estado de esquiva	
+				tam_sombra	= .6;			//Volta a sombra para o tamanho normal
 			}
 			break;
 		#endregion

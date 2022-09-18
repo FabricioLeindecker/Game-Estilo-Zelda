@@ -23,7 +23,7 @@ if (_chao) {										//Veridica se esta colidindo com o objeto chão
 		y = _chao.bbox_top;							//Trava no topo
 	}
 	else if (velv < 0) {						
-		y = _chao.bbox_bottom + 12;					//Trava na posição inferior
+		y = _chao.bbox_bottom + (y - bbox_top);					//Trava na posição inferior
 	}
 	velv = 0;	//Se colidindo a velocidade é zerada
 }
