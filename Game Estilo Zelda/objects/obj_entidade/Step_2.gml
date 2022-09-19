@@ -1,5 +1,8 @@
 /// @description Insert description here
 
+//Chama a função do sistema de profundidade
+ajusta_depth();
+
 //Movimentação e colisão
 //Eixo X
 if (place_meeting(x + velh, y, obj_chao)) {				//Veridica se esta colidindo com o objeto chão

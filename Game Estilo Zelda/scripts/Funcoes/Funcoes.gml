@@ -7,3 +7,8 @@ function Funcoes(){
 function desenha_sombra(_sprite, _escala, _cor = c_white, _alpha = .2) {
 	draw_sprite_ext(_sprite, 0, x, y, _escala, _escala, 0, _cor, _alpha);
 }
+
+//Sistema de profundidade
+function ajusta_depth () {
+	depth = -y;
+}

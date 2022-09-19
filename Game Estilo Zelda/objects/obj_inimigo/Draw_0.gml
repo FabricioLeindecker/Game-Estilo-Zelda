@@ -1,17 +1,15 @@
 /// @description Insert description here
 
 //Desenha a sombra
-var _escala = .5;
 if (image_index > 1) {
-	var _escala = .7;	
+	tam_sombra = .7;	
 }
-desenha_sombra(spr_sombra, _escala, , .3);
 
 //Se desenha
 draw_self();
 
 //Debug
-if (debug) {
+if (global.debug) {
 	draw_set_halign(1);
 	draw_set_valign(1);
 	draw_text(x, y - sprite_height, estado);	

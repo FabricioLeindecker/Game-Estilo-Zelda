@@ -16,8 +16,9 @@ destino_x		= 0;				//Destino no eixo X
 destino_y		= 0;				//Destino no eixo Y
 alvo			= noone;			//Alvo inicial é nenhum
 estado			= "parado";			//Controla o estado
-debug			= false;			//Debug
-image_speed		= 8 / room_speed;
+tam_sombra		= .5;				//Tamanho da sombra
+alp_sombra		= .3;				//Valor do alpha da sombra
+image_speed		= 8 / room_speed;	//Velocidade da animação
 
 #endregion
 
@@ -29,21 +30,21 @@ controla_sprite = function() {
 	show_debug_message(_face);
 	switch(_face) {
 		case 0:
-			sprite_index = spr_cogumelo_right;
-			image_xscale = 1;
+			sprite_index = spr_cogumelo_right;	//Sprite para direita
+			image_xscale = 1;					//Mantém a sprite para direita
 			break;
 			
 		case 1:
-			sprite_index = spr_cogumelo_up;
+			sprite_index = spr_cogumelo_up;		//Sprite para cima
 			break;
 		
 		case 2:
-			sprite_index = spr_cogumelo_right;
-			image_xscale = -1;
+			sprite_index = spr_cogumelo_right;	//Sprite para direita
+			image_xscale = -1;					//Espelha a sprite para esquerda
 			break;
 			
 		case 3:
-			sprite_index = spr_cogumelo_down;
+			sprite_index = spr_cogumelo_down;	//Sprite para baixo
 			break;
 	}	
 }

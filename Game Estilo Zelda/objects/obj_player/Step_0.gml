@@ -1,5 +1,10 @@
 /// @description Insert description here
 
+//Debug
+if (keyboard_check_released(vk_tab)) {
+	global.debug = !global.debug;
+}
+
 //Efeito de escorregar no gelo
 var _gelo = instance_place(x, y, obj_gelo);		//Verica se esta colidindo com o gelo
 if (_gelo) {									//Se sim

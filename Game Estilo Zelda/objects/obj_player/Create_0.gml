@@ -21,7 +21,10 @@ image_spd		= 8 / room_speed;	//Velocidade da animação
 image_numb		= 1;				//Número da imagem
 sprite			= sprite_index;		//Sprite do player
 sprites_index	= 0;				//Sprite do array sprites
-tam_sombra		= 0;
+tam_sombra		= 0;				//Tamanho da sombra
+alp_sombra		= .2;				//Valor do alpha da sombra
+global.debug	= false;			//Debug
+npc_dialago		= noone;			//Proximidade do NPC
 
 //vetor(array) para mudar as sprites do player
 sprites	=	[
@@ -47,6 +50,7 @@ keyboard_set_map(ord("D"), vk_right);	//Tecla alternativa para direita
 keyboard_set_map(ord("J"), ord("C"));	//Tecla alternativa para atacar
 keyboard_set_map(ord("L"), ord("Z"));	//Tecla alternativa para defender
 keyboard_set_map(ord("K"), ord("X"));	//Tecla alternativa para esquivar
+keyboard_set_map(vk_enter, vk_space);	//Tecla alternativa para iniciar dialogos
 
 #endregion
 
@@ -161,7 +165,6 @@ controla_estado = function() {
 				tam_sombra = .3;	//Diminui o tamanho da sombra
 			}
 		
-			
 			//Sai do estado de movendo quando parado
 			if (abs(velv) <= 0.1 && abs(velh) <= 0.1) {
 				estado		= "parado";	//Vai para o estado parado
@@ -192,7 +195,6 @@ controla_estado = function() {
 		case "attack":
 		
 			estado_txt = "attack";	//Debug
-			
 			
 			ajusta_sprite(2);	//Altera a sprite do estado
 			
@@ -228,9 +230,6 @@ controla_estado = function() {
 		#region Esquiva
 		case "esquiva":
 			
-			
-			
-			
 			//Chega se ainda não entrou no estado de esquiva
 			if (estado_txt != "esquiva") {	
 				var _up		= keyboard_check(vk_up);			//Se move para cima
@@ -262,10 +261,51 @@ controla_estado = function() {
 				
 				image_spd = 8 / room_speed;	//Volta a velocidade de animação para o padrão
 			}
-		
 		break;
+		#endregion
+		
+		#region Entrando no diálogo
+		case "entrando no dialogo":
+		
+			estado_txt	= "entrando no dialogo";	//Debug do estado
+			velh		= 0;						//Velocidade horizontal
+			velv		= 0;						//Velocidade vertical
+			
+			ajusta_sprite(1);	//Ajusta a sprite da animação 				
+			
+			if (npc_dialago) {
+				var _x		= npc_dialago.x;						//Pega a posição X do NPC
+				var _y		= npc_dialago.y + npc_dialago.margem;	//Pega a posição Y do NPC
+				
+				if (bbox_top != _y) {
+					velv	= sign(_y - bbox_top);	//Pega a direção em Y
+					face	= velv < 0 ? 1 : 3;		//Ajusta a direção da sprite
+					y		= round(y);				//Arredonda a posição em Y
+				}
+				else if (x != _x) {
+					face	= 0;			//Ajusta a direção da sprite
+					velh	= sign(_x - x);	//Pega a direção em X
+					xscale	= velh;			//Espelha a sprite conforme a dir~ção em X
+					x		= round(x);		//Arredonda a posição em X
+				}
+				else {
+					estado = "dialogo";		//Entra no estado de diálogo
+				}
+			}
+			break;
+		#endregion
+		
+		#region Diálogo
+		case "dialogo":
+			
+			estado_txt	= "dialogo";	//Debug
+			velh		= 0;			//Velocidade horizontal
+			velv		= 0;			//velocidade vertical
+			
+			face		= 1;			//Ajusta a direção da sprite
+			ajusta_sprite(0);			//Ajusta a sprite da animaçãp	
+			break;
 		#endregion
 	}
 }
-
 #endregion
